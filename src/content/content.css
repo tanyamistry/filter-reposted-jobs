@@ -1,0 +1,158 @@
+/* Injected into linkedin.com/jobs/*. Every rule is namespaced .lirj-* so it
+   cannot collide with LinkedIn's hashed class names. */
+
+.lirj-hidden {
+  display: none !important;
+}
+
+.lirj-dim {
+  opacity: 0.42 !important;
+  filter: grayscale(0.7);
+  transition: opacity 120ms ease;
+}
+
+.lirj-dim:hover,
+.lirj-dim:focus-within {
+  opacity: 0.85 !important;
+}
+
+.lirj-badge {
+  display: inline-block;
+  margin: 4px 0 0 12px;
+  padding: 1px 7px;
+  border: 1px solid currentColor;
+  border-radius: 10px;
+  font-size: 11px;
+  font-weight: 600;
+  line-height: 16px;
+  letter-spacing: 0.01em;
+  color: #915907;
+  background: #fff5e6;
+  vertical-align: middle;
+  pointer-events: none;
+}
+
+/* "Mark as applied" button in the details pane */
+.lirj-mark-applied {
+  display: inline-block;
+  margin: 8px 0 0;
+  padding: 5px 12px;
+  border: 1px solid #0a66c2;
+  border-radius: 16px;
+  background: transparent;
+  color: #0a66c2;
+  font: inherit;
+  font-size: 13px;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.lirj-mark-applied:hover {
+  background: rgba(10, 102, 194, 0.08);
+}
+
+.lirj-mark-applied:focus-visible {
+  outline: 2px solid #0a66c2;
+  outline-offset: 2px;
+}
+
+.lirj-mark-applied.lirj-on {
+  border-color: #1f7a3d;
+  color: #1f7a3d;
+  background: rgba(31, 122, 61, 0.08);
+}
+
+/* "Did you apply?" prompt */
+.lirj-prompt {
+  position: fixed;
+  right: 20px;
+  bottom: 20px;
+  z-index: 2147483000;
+  width: 296px;
+  padding: 14px 16px;
+  border: 1px solid #d0d5dd;
+  border-radius: 10px;
+  background: #ffffff;
+  box-shadow: 0 8px 28px rgba(0, 0, 0, 0.18);
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", system-ui, sans-serif;
+  color: #1b1b1b;
+}
+
+.lirj-prompt__text {
+  margin: 0 0 2px;
+  font-size: 14px;
+  font-weight: 600;
+}
+
+.lirj-prompt__sub {
+  margin: 0 0 12px;
+  font-size: 12px;
+  line-height: 1.35;
+  color: #5c5c5c;
+  overflow: hidden;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+}
+
+.lirj-prompt__row {
+  display: flex;
+  gap: 8px;
+}
+
+.lirj-btn {
+  flex: 1;
+  padding: 7px 10px;
+  border: 1px solid #9aa0a6;
+  border-radius: 16px;
+  background: #fff;
+  color: #1b1b1b;
+  font: inherit;
+  font-size: 13px;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.lirj-btn:hover {
+  background: #f2f3f5;
+}
+
+.lirj-btn:focus-visible {
+  outline: 2px solid #0a66c2;
+  outline-offset: 2px;
+}
+
+.lirj-btn--primary {
+  border-color: #0a66c2;
+  background: #0a66c2;
+  color: #fff;
+}
+
+.lirj-btn--primary:hover {
+  background: #004182;
+}
+
+@media (prefers-color-scheme: dark) {
+  .lirj-badge {
+    color: #f0c27a;
+    background: rgba(240, 194, 122, 0.12);
+  }
+  .lirj-prompt {
+    background: #1d2226;
+    border-color: #38434f;
+    color: #e9e5df;
+  }
+  .lirj-prompt__sub { color: #a5adb8; }
+  .lirj-btn {
+    background: transparent;
+    border-color: #6a7681;
+    color: #e9e5df;
+  }
+  .lirj-btn:hover { background: rgba(255, 255, 255, 0.08); }
+  .lirj-btn--primary {
+    background: #71b7fb;
+    border-color: #71b7fb;
+    color: #10171d;
+  }
+  .lirj-mark-applied { border-color: #71b7fb; color: #71b7fb; }
+}

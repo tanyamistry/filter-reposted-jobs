@@ -1,0 +1,80 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <title>Filter reposted jobs</title>
+  <link rel="stylesheet" href="popup.css">
+</head>
+<body>
+  <main class="wrap">
+    <header class="head">
+      <h1>Filter reposted jobs</h1>
+      <label class="switch">
+        <input type="checkbox" id="enabled">
+        <span class="switch__track" aria-hidden="true"></span>
+        <span class="switch__label" id="enabledLabel">On</span>
+      </label>
+    </header>
+
+    <section class="stats" aria-live="polite">
+      <div class="stat">
+        <span class="stat__num" id="statPage">–</span>
+        <span class="stat__cap">filtered on this page</span>
+      </div>
+      <div class="stat">
+        <span class="stat__num" id="statTotal">–</span>
+        <span class="stat__cap">reposts remembered</span>
+      </div>
+      <div class="stat">
+        <span class="stat__num" id="statApplied">–</span>
+        <span class="stat__cap">jobs applied to</span>
+      </div>
+    </section>
+
+    <section class="group">
+      <label class="field" for="mode">Display mode</label>
+      <select id="mode">
+        <option value="hide">Hide reposted jobs</option>
+        <option value="dim">Dim and label them</option>
+      </select>
+    </section>
+
+    <section class="group">
+      <label class="check">
+        <input type="checkbox" id="hideApplied">
+        <span>Also hide jobs I've applied to</span>
+      </label>
+
+      <label class="check">
+        <input type="checkbox" id="backgroundCheck">
+        <span>Check jobs in the background</span>
+      </label>
+      <p class="hint" id="bgHint">
+        Looks up jobs you haven't opened yet, one every 1.5 s, to catch reposts
+        before you click. Experimental.
+      </p>
+    </section>
+
+    <section class="group">
+      <button type="button" class="btn btn--full" id="openApplied">
+        Open applied jobs
+      </button>
+    </section>
+
+    <hr class="rule">
+
+    <section class="group">
+      <button type="button" class="btn btn--ghost btn--full" id="diagnose">
+        Copy diagnostics
+      </button>
+      <button type="button" class="btn btn--danger btn--full" id="forget">
+        Forget all reposted jobs
+      </button>
+      <p class="hint" id="status" role="status"></p>
+    </section>
+  </main>
+
+  <script src="../shared/storage.js"></script>
+  <script src="popup.js"></script>
+</body>
+</html>

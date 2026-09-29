@@ -1,0 +1,66 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Applied jobs</title>
+  <link rel="stylesheet" href="applied.css">
+</head>
+<body>
+  <header class="topbar">
+    <h1>Applied jobs</h1>
+    <p class="sub" id="summary">Loading…</p>
+  </header>
+
+  <main class="page">
+    <div class="toolbar">
+      <label class="sr-only" for="search">Search applied jobs</label>
+      <input type="search" id="search" placeholder="Search title, company, location or notes">
+
+      <label class="sr-only" for="statusFilter">Filter by status</label>
+      <select id="statusFilter">
+        <option value="">All statuses</option>
+      </select>
+
+      <div class="spacer"></div>
+
+      <button type="button" class="btn" id="exportCsv">Export CSV</button>
+      <button type="button" class="btn" id="exportJson">Export JSON</button>
+      <button type="button" class="btn" id="importBtn">Import JSON</button>
+      <input type="file" id="importFile" accept="application/json,.json" hidden>
+    </div>
+
+    <p class="notice">
+      This list lives only in this browser. Nothing is synced or sent anywhere.
+      Export a JSON file if you want a backup.
+    </p>
+
+    <p class="status" id="status" role="status"></p>
+
+    <table class="grid">
+      <caption class="sr-only">Jobs you have applied to</caption>
+      <thead>
+        <tr>
+          <th><button type="button" class="sort" data-sort="title">Job</button></th>
+          <th><button type="button" class="sort" data-sort="company">Company</button></th>
+          <th><button type="button" class="sort" data-sort="location">Location</button></th>
+          <th><button type="button" class="sort" data-sort="appliedAt">Applied</button></th>
+          <th><button type="button" class="sort" data-sort="source">Saved</button></th>
+          <th>Status</th>
+          <th>Notes</th>
+          <th><span class="sr-only">Actions</span></th>
+        </tr>
+      </thead>
+      <tbody id="rows"></tbody>
+    </table>
+
+    <p class="empty" id="empty" hidden>
+      No applied jobs saved yet. They'll appear here as you apply on LinkedIn,
+      or when you use "Mark as applied" in the job details pane.
+    </p>
+  </main>
+
+  <script src="../shared/storage.js"></script>
+  <script src="applied.js"></script>
+</body>
+</html>
