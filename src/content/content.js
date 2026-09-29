@@ -6,6 +6,17 @@
 
   var CFG = window.__LIRJ_CONFIG;
   var Store = window.LIRJStorage;
+
+  /* If either of these is missing the whole script would die on the next
+     line with a bare TypeError, and the popup would just say "not
+     responding". Say what actually went wrong instead. */
+  if (!CFG || !Store) {
+    console.error('[filter-reposted-jobs] not starting: ' +
+      (!CFG ? 'config.js' : 'storage.js') + ' did not load. ' +
+      'Check the content_scripts file order in manifest.json.');
+    return;
+  }
+
   var K = Store.KEYS;
 
   var state = {
@@ -762,6 +773,8 @@
     }
   });
 
+  console.log('[filter-reposted-jobs] active on ' + location.pathname);
+
   /* ===================== boot ===================== */
 
   function loadMaps() {
@@ -810,5 +823,8 @@
 
   Store.getSettings()
     .then(function (s) { state.settings = s; return loadMaps(); })
-    .then(start);
+    .then(start)
+    .catch(function (err) {
+      console.error('[filter-reposted-jobs] failed to start', err);
+    });
 })();

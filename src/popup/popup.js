@@ -37,19 +37,33 @@
     });
   }
 
-  /* The content script only exists on LinkedIn job pages; a failed send is
-     normal, not an error to show. */
+  /* Resolves to { data } on success, or { reason } explaining the failure.
+     "Not responding" on a LinkedIn jobs tab almost always means the tab was
+     open before the extension was loaded or reloaded - content scripts are
+     only injected at page load - so that case gets its own message. */
+  var JOBS_URL = /^https:\/\/www\.linkedin\.com\/jobs\//;
+
   function askContent(type) {
     return activeTab().then(function (tab) {
-      if (!tab) return null;
+      if (!tab) return { reason: 'no-tab' };
+      var onJobsUrl = JOBS_URL.test(tab.url || '');
       return new Promise(function (resolve) {
         chrome.tabs.sendMessage(tab.id, { type: type }, function (res) {
-          void chrome.runtime.lastError;
-          resolve(res || null);
+          var failed = chrome.runtime.lastError || !res;
+          if (!failed) return resolve({ data: res });
+          resolve({ reason: onJobsUrl ? 'no-content-script' : 'not-jobs-page' });
         });
       });
     });
   }
+
+  var REASON_TEXT = {
+    'no-tab': 'No active tab.',
+    'not-jobs-page': 'Open a LinkedIn job search tab, then try again.',
+    'no-content-script':
+      "The extension isn't running on that tab yet. Reload the LinkedIn " +
+      'tab (\u2318R) and try again \u2014 content scripts only start at page load.'
+  };
 
   function notifyContent(type) {
     return askContent(type);
@@ -82,7 +96,11 @@
       el.statApplied.textContent = c.applied;
     });
     askContent('lirj:getPageStats').then(function (res) {
-      el.statPage.textContent = res && res.onJobsPage ? res.filteredOnPage : '–';
+      var d = res && res.data;
+      el.statPage.textContent = d && d.onJobsPage ? d.filteredOnPage : '–';
+      if (res && res.reason === 'no-content-script') {
+        say(REASON_TEXT['no-content-script'], true);
+      }
     });
   }
 
@@ -124,11 +142,11 @@
 
   el.diagnose.addEventListener('click', function () {
     askContent('lirj:diagnose').then(function (res) {
-      if (!res) {
-        say('Open a LinkedIn job search tab first, then try again.', true);
+      if (!res || !res.data) {
+        say(REASON_TEXT[res && res.reason] || 'Could not reach the page.', true);
         return;
       }
-      var text = JSON.stringify(res, null, 2);
+      var text = JSON.stringify(res.data, null, 2);
       navigator.clipboard.writeText(text).then(function () {
         say('Diagnostics copied to clipboard.');
       }, function () {
